@@ -1,6 +1,7 @@
 import Shop from './routes/home/home.component.jsx';
 import { Routes, Route } from 'react-router-dom';
 import Navigation from './routes/navigation/navigation.component.jsx';
+import SignIn from './routes/sign-in/sign-in.component.jsx';
 
 const App = () => {
 
@@ -8,6 +9,7 @@ const App = () => {
     <Routes>
       <Route path='/' element={<Navigation></Navigation>}>
         <Route path='shop' element={<Shop></Shop>}></Route>
+        <Route path='sign-in' element={<SignIn></SignIn>}></Route>
       </Route>
     </Routes>
   );
