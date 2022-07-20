@@ -1,5 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithRedirect, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
+import { useReducer } from 'react';
 
 
 // Your web app's Firebase configuration
@@ -24,3 +26,30 @@ provider.setCustomParameters({
 export const auth = getAuth();
 
 export const signInWithGooglePopUp = () => signInWithPopup(auth, provider);
+
+export const db = getFirestore();
+
+export const createUserDocumentAuth = async (userAuth) => {
+    const userDocReference = doc(db, 'users', userAuth.uid);
+    console.log(userDocReference);
+    const userSnapshot = await getDoc(userDocReference);
+    console.log(userSnapshot.exists())
+
+    // if user doesn't exist
+    if (!userSnapshot.exists()) {
+        const { email, displayName } = userAuth;
+        const createdAt = new Date();
+        
+        try {
+            await setDoc(userDocReference, {
+                displayName,
+                email,
+                createdAt,
+            })
+        } catch(err) {
+            console.log(err.message)
+        }
+    }
+
+
+}
